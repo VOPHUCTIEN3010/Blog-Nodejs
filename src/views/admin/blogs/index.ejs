@@ -1,0 +1,137 @@
+<%- include('../layout/header.ejs') %>
+<%- include('../layout/sidebar.ejs') %> 
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Manage Blog</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">
+                            <a href="#">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            Dashboard v1
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card card-default color-palette-box">
+                <div class="card-header" id="records-header">
+                    <div class="row">
+                        <div class="col-sm-4 col-xs-4">
+                            <h3 class="card-title">
+                                <i class="fas fa-tag"></i>
+                                Blogs
+                            </h3>
+                        </div>
+                        <div class="col-sm-6 col-xs-4 dataTables_wrapper">
+                            <form method="get" class="form-horizontal float-right">
+                                <div class="dataTables_filter">
+                                    <label class="mb-0">Search:<input type="search" class="form-control form-control-sm" placeholder="" name="kw" value=""></label>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-2 col-xs-4">
+                            <button id="delete-records" class="btn btn-danger float-right">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                            <a href="/admin/users/add" id="add-record" type="button" class="btn btn-primary float-right">
+                                <i class="fa fa-plus"></i>
+                            </a>	
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="table_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table controller="blogs" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th width="4%">ID</th>
+                                            <th width="10%">Title</th>
+                                            <th class="tabletShow" width="20%">Content</th>
+                                            <th class="webShow" width="15%">Image</th>
+                                            <th class="tabletShow" width="10%">
+                                                <label class="cbx-label text-success" for="statusCheckboxTop">
+                                                    <input id="statusCheckboxTop" class="statusCheckbox" type="checkbox" value="">
+                                                    <span>Status</span>
+                                                </label>
+                                            </th>
+                                            <th class="tabletShow" width="20%">Poster</th>
+                                            <th width="16%">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody-blogs" class="records">
+                                        <% posts.forEach(post => { %>
+                                            <tr role="row">
+                                                <td id="id<%= post.id %>"><%= post.id %></td>
+                                                <td id="title<%= post.id %>"><%= post.title %></td>
+                                                <td class="tabletShow" id="content<%= post.id %>"><%= post.content.substring(0, 100) %>...</td>
+                                                <% if (post.image) { %>
+                                                    <td><img src="/upload/<%= post.image %>" width="100" alt="" class="img-thumbnail"></td>
+                                                <% } else { %>
+                                                    <td><p>No Image</p></td>    
+                                                <% } %>
+                                                <td>
+                                                    <label class="switch">
+                                                        <input type="checkbox" class="postStatusCheckbox" data-post-id="<%= post.id %>" <% if (post.status === 1) { %>checked<% } %>>
+                                                        <span class="slider round">
+                                                            <% if (post.status === 1) { %>
+                                                                <span class="on">ON</span>
+                                                                <span class="off">OFF</span>
+                                                            <% } else { %>
+                                                                <span class="off">OFF</span>
+                                                                <span class="on">ON</span>
+                                                            <% } %>
+                                                        </span>
+                                                    </label>
+                                                    <%= post.status  %>
+                                                </td>    
+                                                <td><%= post.users.fullname  %></td>
+                                                <td class="btn-act" id="action<%= post.id %>">
+                                                    <a href="/admin/view_post/<%= post.id %>" id="view<%= post.id %>" type="button" class="btn btn-success view-record">
+                                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                                    </a>
+                                                    <button id="del<%= post.id %>" type="button" class="btn btn-danger del-record" alt="<%= post.id %>">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        <% }); %>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr role="row">
+                                            <th width="4%">ID</th>
+                                            <th width="10%">Title</th>
+                                            <th class="tabletShow" width="20%">Content</th>
+                                            <th class="webShow" width="15%">Image</th>
+                                            <th class="tabletShow" width="10%">
+                                                <label class="cbx-label text-success" for="statusCheckboxBottom">
+                                                    <input id="statusCheckboxBottom" class="statusCheckbox" type="checkbox" value="">
+                                                    <span>Status</span>
+                                                </label>
+                                            </th>
+                                            <th class="tabletShow" width="20%">Poster</th>
+                                            <th width="16%">Action</th>
+                                        </tr>
+                                    </tfoot>                                    
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<%- include('../layout/footer.ejs') %>

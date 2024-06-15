@@ -1,0 +1,55 @@
+<%- include('layout/header') %>
+    <div class="container mt-4">
+        <h1>Delete User</h1>
+        <div class="row">
+            <div class="col-sm-9">
+                <form method="post" action="/delete-user">
+                    <div class="mb-3 row d-none ">
+                        <label for="fullname" enctype="multipart/form-data"  class="col-sm-2 col-form-label">Id</label>
+                        <div class="col-sm-10">
+                            <input name="studentId" type="text" class="form-control" value="<%= studentEdit.id %>" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="fullname" enctype="multipart/form-data"  class="col-sm-2 col-form-label">Are you sure to delete this student with Full Name:</label>
+                        <div class="col-sm-10">
+                            <input name="fullname" type="text" class="form-control" id="fullname" placeholder="Full Name" value="<%= studentEdit.fullname %>">
+                        </div>
+                    </div>
+                    <!-- <div class="mb-3 row">
+                        <label for="address" class="col-sm-2 col-form-label">Address:</label>
+                        <div class="col-sm-10">
+                            <input name="address" type="text" class="form-control" id="address" placeholder="Address"  value="<%= studentEdit.address %>" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="phone" class="col-sm-2 col-form-label">Phone:</label>
+                        <div class="col-sm-10">
+                            <input name="phone" type="text" class="form-control" id="phone" placeholder="Phone" value="<%= studentEdit.phone %>" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="classname" class="col-sm-2 col-form-label">Class:</label>
+                        <div class="col-sm-10">
+                            <input name="classname" type="text" class="form-control" id="classname" placeholder="Class" value="<%= studentEdit.classname%>" required>
+                        </div>
+                    </div> -->
+                    <div class="mb-3 row">
+                        <div class="offset-sm-2 col-sm-10">
+                            <button name="" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div> 
+                </form>
+            </div>
+            <div class="col-sm-3">
+                <div class="list-group">
+                    <a href="#" class="list-group-item active">
+                        <h4 class="list-group-item-heading">Management Students</h4>
+                    </a>
+                    <a href="#" class="list-group-item">List all students</a>
+                    <a href="/create-user" class="list-group-item">Add new student</a>
+                </div>
+            </div>
+        </div>
+    </div>
+<%- include('layout/footer') %>

@@ -1,0 +1,70 @@
+<%- include('layout/header') %>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-sm-9">
+                <form method="post" action="/add-user" enctype="multipart/form-data">
+                    <div class="mb-3 row">
+                        <label for="fullname" class="col-sm-2 col-form-label">Full Name:</label>
+                        <div class="col-sm-10">
+                            <input name="fullname" type="text" class="form-control" id="fullname" placeholder="Full Name" required value="<%= oldData ? oldData.fullname : '' %>">
+                            
+                            <% if (errors && errors.fullname) { %>
+                                <span class="text-danger"><%= errors.fullname %></span>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="email" class="col-sm-2 col-form-label">Email:</label>
+                        <div class="col-sm-10">
+                            <input name="email" type="text" class="form-control" id="email" placeholder="Email" required value="<%= oldData ? oldData?.email : '' %>">
+                            <% if (errors && errors.email) { %>
+                                <span class="text-danger"><%= errors.email%></span>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="phone" class="col-sm-2 col-form-label">Phone:</label>
+                        <div class="col-sm-10">
+                            <input name="phone" type="text" class="form-control" id="phone" placeholder="Phone" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="classname" class="col-sm-2 col-form-label">Birthday:</label>
+                        <div class="col-sm-10">
+                            <input name="birthday" type="date" class="form-control" id="birthday" placeholder="Class" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="classname" class="col-sm-2 col-form-label">Sex:</label>
+                        <div class="col-sm-10">
+                            <select name="sex" class="form-control" id="sex" required>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                    </div>                    
+                    <div class="mb-3 row">
+                        <label for="image" class="col-sm-2 col-form-label">Avatar:</label>
+                        <div class="col-sm-10">
+                            <input name="image" type="file" class="form-control" id="imageavatar" placeholder="Upload a Photo">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="offset-sm-2 col-sm-10">
+                            <button name="submit" type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-3">
+                <div class="list-group">
+                    <a href="#" class="list-group-item active">
+                        <h4 class="list-group-item-heading">Management Students</h4>
+                    </a>
+                    <a href="#" class="list-group-item">List all students</a>
+                    <a href="/create-user" class="list-group-item">Add new student</a>
+                </div>
+            </div>
+        </div>
+    </div>
+<%- include('layout/footer') %>

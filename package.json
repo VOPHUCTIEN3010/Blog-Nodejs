@@ -1,0 +1,40 @@
+{
+  "name": "blog-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VOPHUCTIEN3010/Blog-Nodejs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VOPHUCTIEN3010/Blog-Nodejs/issues"
+  },
+  "homepage": "https://github.com/VOPHUCTIEN3010/Blog-Nodejs#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parse": "^0.1.0",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.9.7",
+    "nodemon": "^3.1.0",
+    "sequelize": "^6.37.3",
+    "typeorm": "^0.3.20"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.2"
+  }
+}

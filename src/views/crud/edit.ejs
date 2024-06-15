@@ -1,0 +1,68 @@
+<%- include('layout/header') %>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-sm-9">
+                <form method="post" action="/update/<%= studentEdit.id %>">
+                    <div class="mb-3 row">
+                        <label for="fullname" class="col-sm-2 col-form-label">Full Name:</label>
+                        <div class="col-sm-10">
+                            <input name="fullname" type="text" class="form-control" id="fullname" placeholder="Full Name" value="<%= studentEdit.fullname %>" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3 row">
+                        <label for="email" class="col-sm-2 col-form-label">Email:</label>
+                        <div class="col-sm-10">
+                            <input name="email" type="email" class="form-control" id="email" placeholder="Email" value="<%= studentEdit.email %>" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3 row">
+                        <label for="phone" class="col-sm-2 col-form-label">Phone:</label>
+                        <div class="col-sm-10">
+                            <input name="phone" type="text" class="form-control" id="phone" placeholder="Phone" value="<%= studentEdit.phone %>" required>
+                        </div>
+                    </div>                   
+                    <div class="mb-3 row">
+                        <label for="birthday" class="col-sm-2 col-form-label">Birthday:</label>
+                        <div class="col-sm-10">
+                            <input name="birthday" type="date" class="form-control" id="birthday" value="<%= studentEdit.birthday %>" required>
+                        </div>
+                    </div>                   
+                    <div class="mb-3 row">
+                        <label for="sex" class="col-sm-2 col-form-label">Sex:</label>
+                        <div class="col-sm-10">
+                            <select name="sex" class="form-control" id="sex" required>
+                                <option value="male" <%= studentEdit.sex == "male" ? "selected" : "" %>>Male</option>
+                                <option value="female" <%= studentEdit.sex == "female" ? "selected" : "" %>>Female</option>
+                                <option value="other" <%= studentEdit.sex == "other" ? "selected" : "" %>>Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3 row">
+                        <label for="avatar" class="col-sm-2 col-form-label">Avatar:</label>
+                        <div class="col-sm-10">
+                            <input name="avatar" type="file" class="form-control" id="avatar" placeholder="Upload an Avatar">
+                            <img class="my-3" src="/upload/<%= studentEdit.avatar %>" alt="Current Avatar" width="200" height="200">
+                        </div>
+                    </div>                    
+                    <div class="mb-3 row">
+                        <div class="offset-sm-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>                    
+                </form>
+            </div>
+            <div class="col-sm-3">
+                <div class="list-group">
+                    <a href="#" class="list-group-item active">
+                        <h4 class="list-group-item-heading">Management Students</h4>
+                    </a>
+                    <a href="/" class="list-group-item">List all students</a>
+                    <a href="/create" class="list-group-item">Add new student</a>
+                </div>
+            </div>
+        </div>
+    </div>
+<%- include('layout/footer') %>

@@ -1,0 +1,178 @@
+@import url(./reset.css);
+
+body{
+    background:#ebeef0;
+}
+.list-post-sec{
+    padding-bottom: 80px;
+}
+
+.img-sm {
+    width: 46px;
+    height: 46px;
+}
+
+.panel {
+    box-shadow: 0 2px 0 rgba(0,0,0,0.075);
+    border-radius: 0;
+    border: 0;
+    margin-bottom: 15px;
+}
+
+.panel-body h2{
+    padding: 20px 0px;
+}
+
+.form-create-post h2 {
+    padding: 20px 0;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+    display: none;
+}
+
+.panel .panel-footer, .panel>:last-child {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.panel .panel-heading, .panel>:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.card-text {
+    margin-bottom: 0px;
+}
+
+.media-block .media-left {
+    display: block;
+    float: left
+}
+
+.media-block .media-right {
+    float: right
+}
+
+.media-block .media-body {
+    display: block;
+    overflow: hidden;
+    width: auto
+}
+
+.text-muted, a.text-muted:hover, a.text-muted:focus {
+    color: #acacac;
+}
+.text-sm {
+    font-size: 0.9em;
+}
+.text-5x, .text-4x, .text-5x, .text-2x, .text-lg, .text-sm, .text-xs {
+    line-height: 1.25;
+}
+
+.btn-trans {
+    background-color: transparent;
+    border-color: transparent;
+    color: #929292;
+}
+
+.btn-icon {
+    padding-left: 9px;
+    padding-right: 9px;
+}
+
+.btn-sm, .btn-group-sm>.btn, .btn-icon.btn-sm {
+    padding: 5px 10px !important;
+}
+
+.mar-top {
+    margin-top: 15px;
+}
+
+.mar-btm{
+    padding-left: 20px;
+}
+
+.panel-body input[type="file"] {
+    display: block;
+    margin-bottom: 10px;
+}
+
+
+/* comment */
+.mar-top-submit{
+    margin-right: 20px;
+    padding-top: 10px;
+}
+
+.content-comment {
+    padding: 20px;
+}
+
+.comment-post {
+    align-content: center; 
+    border-radius: 30px;
+}
+
+.form-text-comment {
+    padding: 10px 20px;
+}
+
+.not-find-comment p {
+    padding: 10px 0px 10px 40px;
+    font-size: 16px;
+}
+
+.hidden {
+    display: none;
+}
+
+.show-comment {
+    padding: 20px;
+}
+
+.show-comment a {
+    color: #412a2a;
+    font-size: 16px;
+    font-weight: 600;    
+    padding-left: 20px;
+}
+
+.margin-8 {
+    margin-left: 8rem;
+    padding-top: 10px;
+}
+
+.margin-4 {
+    margin-left: 4rem;
+    padding-top: 10px;
+}
+
+.content-comment-reply{
+    padding: 20px 0;
+}
+
+.active {
+    color: blue;
+}
+
+.user-heading a {
+    text-decoration: none;
+}
+
+.btn-edit:hover { 
+    color: rgb(24, 214, 151);
+}
+
+.btn-delete:hover {
+    color: rgb(214, 46, 24);
+}
+.title-header h1 {
+    color: #222;
+    font-size: 35px;
+}
+.title-header h1:hover {
+    color: #436dac;
+}

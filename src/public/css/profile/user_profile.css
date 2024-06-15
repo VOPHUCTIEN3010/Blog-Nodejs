@@ -1,0 +1,10 @@
+@import url(./reset.css);
+
+.profile-section{
+    height: calc(100vh - 56px);
+}
+
+.image-container {
+    width: 100%;
+    height: 100%;
+}
