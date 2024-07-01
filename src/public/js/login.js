@@ -17,7 +17,7 @@
                 localStorage.setItem('accessToken', response.accessToken);
                 localStorage.setItem('refreshToken', response.refreshToken);
                 if(response.role == 0){
-                    window.location.href="/admin"
+                    window.location.href="/admin/dashboard"
                 } else 
                     window.location.href="/";
                 },

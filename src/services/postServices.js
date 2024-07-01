@@ -4,22 +4,87 @@ import Comment from '../models/Comment.js';
 import fs from 'fs';
 import path from 'path';
 import User from '../models/User.js';
+import sequelize from'sequelize';
+
 const PostServices = {
-    async getAllPost() {
+    async getAllPosts(page = 1, limit = 10, keyword = '') {
         try {
-            const posts = await Post.findAll({ 
-                include: [
-                    "users",
-                    "comments",
-                    "likes",
-                ] 
+            const offset = (page - 1) * limit;
+            const whereClause = keyword ? {[sequelize.Op.or]: ['title', 'content'].map(key => ({[key]: { [sequelize.Op.like]: `%${keyword}%` }}))} : {}; 
+            
+            const { count: totalPosts, rows: posts } = await Post.findAndCountAll({
+                where: whereClause,
+                include: ['users', 'likes', 'comments'],
+                limit,
+                offset,
+                order: [['createdAt', 'DESC']]
             });
-            return posts;
+            
+            return { posts, totalPosts };
+        } catch (error) {
+            console.error('Error retrieving posts:', error);
+            throw error;
+        }
+    },         
+    async getAllPostsByUserId(userId, page = 1, limit = 10, keyword = '') {
+        try {
+            const offset = (page - 1) * limit;
+            let whereClause = { user_id: userId };
+    
+            if (keyword) {
+                whereClause = {
+                    ...whereClause,
+                    [sequelize.Op.or]: [
+                        {
+                            title: {
+                                [sequelize.Op.like]: `%${keyword}%`
+                            }
+                        },
+                        {
+                            content: {
+                                [sequelize.Op.like]: `%${keyword}%`
+                            }
+                        },
+                    ]
+                };
+            }
+            const { count: totalPosts, rows: posts } = await Post.findAndCountAll({
+                where: whereClause,
+                include: ['users', 'likes', 'comments'],
+                limit: limit,
+                offset: offset,
+                order: [['createdAt', 'DESC']]
+            });
+    
+            return { posts, totalPosts };
+        } catch (error) {
+            console.error('Error retrieving posts for user:', error);
+            throw error;
+        }
+    },
+    async searchRecords (page = 1, limit = 10, keyword = '') {
+        try {
+            const offset = (page - 1) * limit;
+            let whereClause = {};
+            if (keyword) {
+                whereClause = {
+                    title: {
+                        [sequelize.Op.like]: `%${keyword}%`
+                    }
+                };
+            }
+            const { count: totalPosts, rows: posts } = await Post.findAndCountAll({
+                where: whereClause,
+                include: ['users', 'likes', 'comments'],
+                limit: limit,
+                offset: offset
+            });
+            return { posts, totalPosts };
         } catch (error) {
             console.error('Error retrieving all posts:', error);
             throw error;
         }
-    },  
+    },
     async getPostBySlug(slug) {
         try {
             const post = await Post.findOne({
@@ -39,11 +104,13 @@ const PostServices = {
     async getPostById(post_id) {
         try {
             const results = await Post.findAll({
+                include: ['users'],
                 where: {
                     id: post_id
                 }
             });
             let post = results && results.length > 0 ? results[0] : null;
+            console.log('Post found:', post);
             return post;
         } catch (error) {
             console.error('Lỗi khi truy vấn bài viết:', error);
@@ -107,6 +174,7 @@ const PostServices = {
     },
     async updatePostById(post_id, content, title, slug, image) {
         try {
+            console.log('Updating post', post_id);
             const rowsUpdated = await Post.update({
                 content, 
                 title, 
@@ -127,19 +195,13 @@ const PostServices = {
     },
     async updatePostStatus(post_id, status) {
         try {
-            const rowsUpdated = await Post.update({
-                status
-            }, {
-                where: {
-                    id: post_id 
-                }
-            });
-            if (rowsUpdated[0] === 0) {
-                throw new Error(`Không tìm thấy bài viết với ID ${id} hoặc không có thay đổi nào được thực hiện.`);
-            }    
-            return rowsUpdated;
+            const post = await Post.findOne({where: {id: post_id}});
+            if (!post) {
+                return res.status(404).json({ success: false, message: 'Post not found' });
+            }
+            return await post.update({ status: status });
         } catch (err) {
-            throw err; 
+            res.status(500).json({ success: false, message: 'An error occurred', error: err });
         }
     },   
     

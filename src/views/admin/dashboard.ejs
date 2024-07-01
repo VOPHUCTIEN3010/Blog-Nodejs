@@ -26,41 +26,39 @@
                         <div class="col-lg-4 col-6">
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>150</h3>
+                                    <h3><%= totalPosts.totalPosts %></h3>
                                     <p>Blogs</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-bag"></i>
                                 </div>
-                                <a href="/admin/users_blog" class="small-box-footer">More info
+                                <a href="/admin/posts" class="small-box-footer">More info
                                     <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <div class="col-lg-4 col-6">
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3>
-                                        53<sup style="font-size: 20px">%</sup>
-                                    </h3>
+                                    <h3><%= totalUsers.totalUsers %></h3>
                                     <p>Users</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-stats-bars"></i>
                                 </div>
-                                <a href="/admin/list_users" class="small-box-footer">More info
+                                <a href="/admin/users" class="small-box-footer">More info
                                     <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <div class="col-lg-4 col-6">
                             <div class="small-box bg-warning">
                                 <div class="inner">
-                                    <h3>44</h3>
+                                    <h3><%= totalComments.totalComments %></h3>
                                     <p>Comments</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-person-add"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">More info
+                                <a href="/admin/comments" class="small-box-footer">More info
                                     <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>

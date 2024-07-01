@@ -1,0 +1,134 @@
+<%- include('../layout/header.ejs') %>
+<%- include('../layout/sidebar.ejs') %>
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Manage Comments</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">
+                            <a href="/admin/dashboard">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            Index
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card card-default color-palette-box">
+                <div class="card-header" id="records-header">
+                    <div class="row">
+                        <div class="col-sm-4 col-xs-4">
+                            <h3 class="card-title">
+                                <i class="fas fa-tag"></i>
+                                Comments
+                            </h3>
+                        </div>
+                        <div class="col-sm-6 col-xs-4 dataTables_wrapper">
+                            <form method="get" class="form-horizontal float-right">
+                                <div class="dataTables_filter d-flex">
+                                    <label class="mb-0">Search:</label>
+                                    <input type="search" class="form-control form-control-sm" placeholder="" name="kw"
+                                        value="">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-2 col-xs-4">
+                            <button id="delete-records" class="btn btn-danger float-right">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                            <a href="/admin/comments/add" id="add-record" type="button"
+                                class="btn btn-primary float-right">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="table_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table controller="blogs" class="table table-bordered table-striped dataTable"
+                                    role="grid" aria-describedby="example1_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th width="4%">ID</th>
+                                            <th width="10%">Content</th>
+                                            <th class="tabletShow" width="20%">Number Like</th>
+                                            <th class="webShow" width="15%">Post</th>
+                                            <th class="tabletShow" width="20%">Commentator</th>
+                                            <th class="tabletShow" width="10%">Status</th>
+                                            <th width="16%">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody-blogs" class="records">
+                                        <% comments.forEach(comment=> { %>
+                                        <tr role="row">
+                                            <td><%= comment.id %></td>
+                                            <td><%= comment.content %></td>
+                                            <td><%= comment.number_like %></td>
+                                            <td><%= comment.posts ? comment.posts.title : 'Không có bài đăng' %></td>
+                                            <td><%= comment.users ? comment.users.fullname : 'Không có người dùng' %></td>
+                                            <td>
+                                                <label class="switch">
+                                                    <input type="checkbox" class="commentStatusCheckbox" data-comment-id="<%= comment.id %>" <% if (comment.status === 1) { %>checked<% } %>>
+                                                    <span class="slider round">
+                                                        <% if (comment.status === 1) { %>
+                                                            <span class="on">ON</span>
+                                                            <span class="off">OFF</span>
+                                                        <% } else { %>
+                                                            <span class="off">OFF</span>
+                                                            <span class="on">ON</span>
+                                                        <% } %>
+                                                    </span>
+                                                </label>
+                                            </td>
+                                            <td class="btn-act" id="action<%= comment.id %>">
+                                                <a href="/admin/view_comment/<%= comment.id %>" id="view<%= comment.id %>"
+                                                    type="button" class="btn btn-success view-record">
+                                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                                </a>
+                                                <a href="/admin/edit_comment/<%= comment.id  %>" id="edit5" type="button"
+                                                    class="btn btn-primary edit-record">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <button id="del<%= comment.id %>" type="button" class="btn btn-danger del-record" alt="<%= comment.id %>">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>                                            
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                    </tbody>
+                                    <thead>
+                                        <tr role="row">
+                                            <th width="4%">ID</th>
+                                            <th width="10%">Content</th>
+                                            <th class="tabletShow" width="20%">Number Like</th>
+                                            <th class="webShow" width="15%">Post</th>
+                                            <th class="tabletShow" width="20%">Commentator</th>
+                                            <th class="tabletShow" width="10%">Status</th>
+                                            <th width="16%">Action</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">                          
+                            <div class="pagination-container">
+                                <%- generatePagination(currentPage, totalPages, postsPerPage, totalComments, true, keyword) %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<%- include('../layout/footer.ejs') %>

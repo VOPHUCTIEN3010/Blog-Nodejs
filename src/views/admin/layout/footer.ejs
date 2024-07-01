@@ -20,6 +20,23 @@
 <script src="/libs/adminLTE3/dist/js/adminlte.js"></script>
 <script src="/libs/adminLTE3/dist/js/demo.js"></script>
 <script src="/libs/adminLTE3/dist/js/pages/dashboard.js"></script>
+<script src="https://cdn.datatables.net/v/dt/dt-2.0.8/datatables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#my_table').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/English.json"
+            },
+        });
+    });    
+</script>
 <% if (typeof jsFile !== 'undefined') { %>
     <script src="/js/<%= jsFile  %>"></script>
 <% } %>

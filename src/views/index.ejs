@@ -22,8 +22,10 @@
                         <a name="image-icon" id="avatar-icon" class="btn btn-trans btn-icon fa fa-camera add-tooltip" href="javascript:void(0);"></a>
                         <input name="image" type="file" class="form-control d-none" id="image" accept="image/*">
                     </div>
-                </form>         
+                </form>
             </div>
+
+            <!-- Loop through posts -->
             <% posts.forEach(post => { %>
                 <% if (post.status == 1) { %>
                     <div class="panel mt-5">
@@ -34,7 +36,7 @@
                                         src="<%= post?.users?.image ? '/upload/' + post.users.image : 'http://bootdey.com/img/Content/avatar/avatar1.png' %>" />
                                 </a>
                                 <div class="mar-btm">
-                                    <a href="/user_profile" class="btn-link text-semibold media-heading box-inline">
+                                    <a href="" class="btn-link text-semibold media-heading box-inline">
                                         <%= post?.users?.fullname %>
                                     </a>
                                     <p class="text-muted text-sm">
@@ -53,7 +55,7 @@
                             </a>
                             <div class="card-footer d-flex align-items-center">
                                 <div>
-                                    <span class="number-like"><%= post?.number_like %></span>
+                                    <span class="number-format" data-number="<%= post.number_like %>"></span>
                                 </div>
                                 <form class="btn btn-sm btn-default btn-hover-success like-form" method="POST">
                                     <input type="hidden" name="post_id" value="<%= post.id %>">
@@ -76,8 +78,8 @@
                                         </button>
                                     <% } %>
                                 </form>
-                                <div class="">
-                                    <%= post?.comments.length %>
+                                <div>
+                                    <span class="number-format" data-number="<%= post.comments.length %>"></span>
                                 </div>
                                 <a class="btn btn-sm btn-default btn-hover-primary" href="/post/<%= post.slug %>">
                                     <i class="fa fa-comment"></i> Comment
@@ -89,9 +91,11 @@
                         </div>
                     </div>
                 <% } %>
-            <% }) %>                   
+            <% }) %>
+            <div class="pagination-container">
+                <%- generatePagination(currentPage, totalPages, postsPerPage, totalPosts, keyword) %>
+            </div>
         </div>
     </div>
 </section>
 <%- include('layout/footer') %>
-

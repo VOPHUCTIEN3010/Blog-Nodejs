@@ -1,19 +1,19 @@
 <%- include('../layout/header.ejs') %>
-<%- include('../layout/sidebar.ejs') %> 
+<%- include('../layout/sidebar.ejs') %>
 <div class="content-wrapper">
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Manage Blog</h1>
+                    <h1 class="m-0">Manage Users</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item">
-                            <a href="#">Home</a>
+                            <a href="/admin/dashboard">Home</a>
                         </li>
                         <li class="breadcrumb-item active">
-                            Dashboard v1
+                            Index Users
                         </li>
                     </ol>
                 </div>
@@ -28,13 +28,15 @@
                         <div class="col-sm-4 col-xs-4">
                             <h3 class="card-title">
                                 <i class="fas fa-tag"></i>
-                                Blogs
+                                Users
                             </h3>
                         </div>
                         <div class="col-sm-6 col-xs-4 dataTables_wrapper">
-                            <form method="get" class="form-horizontal float-right">
-                                <div class="dataTables_filter">
-                                    <label class="mb-0">Search:<input type="search" class="form-control form-control-sm" placeholder="" name="kw" value=""></label>
+                            <form method="get" action="/admin/search_users" class="form-horizontal float-right">
+                                <div class="dataTables_filter d-flex">
+                                    <label class="mb-0 d-flex">Search: <input type="search" class="form-control form-control-sm" placeholder="" name="kw" id="searchInput"
+                                        value=""></label>
+                                    
                                 </div>
                             </form>
                         </div>
@@ -42,9 +44,10 @@
                             <button id="delete-records" class="btn btn-danger float-right">
                                 <i class="fa fa-trash"></i>
                             </button>
-                            <a href="/admin/users/add" id="add-record" type="button" class="btn btn-primary float-right">
+                            <a href="/admin/users/add" id="add-record" type="button"
+                                class="btn btn-primary float-right">
                                 <i class="fa fa-plus"></i>
-                            </a>	
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -52,7 +55,8 @@
                     <div id="table_wrapper" class="dataTables_wrapper dt-bootstrap4">
                         <div class="row">
                             <div class="col-sm-12">
-                                <table controller="blogs" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                                <table controller="blogs" class="table table-bordered table-striped dataTable"
+                                    role="grid" aria-describedby="example1_info">
                                     <thead>
                                         <tr role="row">
                                             <th width="4%">ID</th>
@@ -60,44 +64,58 @@
                                             <th class="tabletShow" width="20%">Email</th>
                                             <th class="webShow" width="15%">Avatar</th>
                                             <th class="tabletShow" width="20%">Phone Number</th>
-                                            </th>
                                             <th class="tabletShow" width="10%">Role</th>
                                             <th width="16%">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tbody-blogs" class="records">
-                                        <% users.forEach(user => { %>
-                                            <tr role="row">
-                                                <td id="id<%= user.id %>"><%= user.id %></td>
-                                                <td id="fullname<%= user.id %>"><%= user.fullname %></td>
-                                                <td class="tabletShow" id="content<%= user.id %>"><%= user.email %></td>
-                                                <% if (user.image) { %>
-                                                    <td><img src="/upload/<%= user.image %>" width="100" alt="" class="img-thumbnail"></td>
-                                                <% } else { %>
-                                                    <td><p>No Image</p></td>    
-                                                <% } %>
-                                                <% if (user.phone) { %>
-                                                    <td><%= user.phone %> </td>    
-                                                <% } else { %>
-                                                    <td>No phone number</td>
-                                                <% } %>
-                                                <% if (user.role == 0) { %>
-                                                    <td>Admin</td>    
-                                                <% } else { %>
-                                                    <td>User</td>
-                                                <% } %>
-                                                <td class="btn-act" id="action<%= user.id %>">
-                                                    <a href="/admin/view_user/<%= user.id %>" id="view<%= user.id %>" type="button" class="btn btn-success view-record">
-                                                        <i class="fa fa-eye" aria-hidden="true"></i>
-                                                    </a>
-                                                    <a href="/admin/edit_user/<%= user.id  %>" id="edit5" type="button" class="btn btn-primary edit-record">
-                                                        <i class="fa fa-edit"></i>
-                                                    </a>
-                                                    <button id="del<%= user.id %>" type="button" class="btn btn-danger del-record" alt="<%= user.id %>">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                        <% users.forEach(user=> { %>
+                                        <tr role="row">
+                                            </td>
+                                            <td id="id<%= user.id %>">
+                                                <%= user.id %>
+                                            </td>
+                                            <td id="fullname<%= user.id %>">
+                                                <%= user.fullname %>
+                                            </td>
+                                            <td class="tabletShow" id="content<%= user.id %>">
+                                                <%= user.email %>
+                                            </td>
+                                            <% if (user.image) { %>
+                                            <td><img src="/upload/<%= user.image %>" width="100" alt=""
+                                                    class="img-thumbnail"></td>
+                                            <% } else { %>
+                                            <td>
+                                                <p>No Image</p>
+                                            </td>
+                                            <% } %>
+                                            <% if (user.phone) { %>
+                                            <td>
+                                                <%= user.phone %>
+                                            </td>
+                                            <% } else { %>
+                                            <td>No phone number</td>
+                                            <% } %>
+                                            <% if (user.role==0) { %>
+                                            <td>Admin</td>
+                                            <% } else { %>
+                                            <td>User</td>
+                                            <% } %>
+                                            <td class="btn-act" id="action<%= user.id %>">
+                                                <a href="/admin/view_user/<%= user.id %>" id="view<%= user.id %>"
+                                                    type="button" class="btn btn-success view-record">
+                                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                                </a>
+                                                <a href="/admin/edit_user/<%= user.id  %>" id="edit5" type="button"
+                                                    class="btn btn-primary edit-record">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <button id="del<%= user.id %>" type="button"
+                                                    class="btn btn-danger del-record" alt="<%= user.id %>">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
                                         <% }); %>
                                     </tbody>
                                     <thead>
@@ -111,11 +129,14 @@
                                             <th class="tabletShow" width="20%">Role</th>
                                             <th width="16%">Action</th>
                                         </tr>
-                                    </thead>                                   
+                                    </thead>
                                 </table>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row">                          
+                            <div class="pagination-container mt-3">
+                                <%- generatePagination(currentPage, totalPages, postsPerPage, totalUsers, true, keyword) %>
+                            </div>                            
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,9 @@
 import User from "../models/User.js";
 import UserService from "../services/userServices.js"
-import Repository from "../repository/blog.js";
+import Repository from "../repository/repository.js";
 import PostServices from "../services/postServices.js";
+import generatePagination from "../helpers/htmlHelpers.js";
+
 const UserCtl = {
     login: async (req, res) => {
         try {
@@ -15,7 +17,7 @@ const UserCtl = {
 
             if (user.role === 0) {
                 req.session.email= email;
-                return res.redirect('/admin');
+                return res.redirect('/admin/dashboard');
             } else if (user.role === 1) {
                 req.session.email= email;
                 return res.redirect('/');
@@ -102,25 +104,35 @@ const UserCtl = {
             if (!user_id) {
                 return res.status(401).json({ msg: 'No user_id provided.' });
             }
-
-            const { fullname, email, phone, birthday, sex, address} = req.body;
+            const { fullname, email, phone, birthday, sex, address, role} = req.body;
             const old_image = req.user.image;
             const image = await Repository.handleImageUpdate(req, old_image);
-
-            await UserService.updateByUserById(user_id, fullname, email, phone, birthday, sex, address, image);
-
+            await UserService.updateByUserById(user_id, fullname, email, phone, birthday, sex, address, image, role);
             res.redirect('/infor');
         } catch (error) {
             console.error(`Error updating user with ID ${user_id}:`, error);
             res.status(500).send('Failed to update user.');
-        }
-    
+        }    
     },
     getMyBlog : async (req, res) => {
         try {
-            const postAll = await PostServices.getAllPost(); 
             const user = req.session.user || null;
-            return res.render('my_blog/index.ejs', {posts : postAll, user : user, cssFile : "profile/myBlog.css", jsFile: "profile/myBlog.js"});
+            const page = parseInt(req.query.page) || 1; 
+            const limit = parseInt(req.query.limit) || 10; 
+            const keyword = req.query.kw || ''; 
+            const {posts, totalPosts} = await PostServices.getAllPostsByUserId(user.id, page, limit, keyword); 
+            return res.render('my_blog/index.ejs', {
+                posts : posts, 
+                user : user, 
+                cssFile : "profile/myBlog.css", 
+                jsFile: "profile/myBlog.js",
+                currentPage: page,
+                totalPages: Math.ceil(totalPosts / limit),
+                totalPosts: totalPosts,
+                postsPerPage: limit,
+                keyword : keyword,
+                generatePagination: generatePagination,
+            });
         } catch (error) {
             console.error('Error retrieving all post:', error);
             throw error;

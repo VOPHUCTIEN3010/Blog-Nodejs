@@ -81,6 +81,16 @@ $(document).ready(function() {
         const elapsedTime = getElapsedTime(postTime);
         $(this).text(elapsedTime);
     });
+
+    // $(window).scroll(function() {
+    //     var scrollHeight = $(document).height();
+    //     var scrollPosition = $(window).height() + $(window).scrollTop();
+    //     if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
+    //         $(".pagination").fadeOut();
+    //     } else {
+    //         $(".pagination").fadeIn();
+    //     }
+    // });
 });
 
     function slugify(str) {
@@ -105,8 +115,14 @@ $(document).ready(function() {
         const now = new Date();
         const postDate = new Date(date);
         const diff = Math.abs(now - postDate) / 1000;
-       
-        const days = Math.floor(diff / 86400);
+    
+        const years = Math.floor(diff / 31536000); // 60 * 60 * 24 * 365
+        if (years > 0) return `${years} year${years === 1 ? '' : 's'} ago`;
+    
+        const months = Math.floor(diff / 2592000); // 60 * 60 * 24 * 30
+        if (months > 0) return `${months} month${months === 1 ? '' : 's'} ago`;
+    
+        const days = Math.floor(diff / 86400); // 60 * 60 * 24
         if (days > 0) return `${days} day${days === 1 ? '' : 's'} ago`;
     
         const hours = Math.floor(diff / 3600) % 24;
@@ -118,7 +134,7 @@ $(document).ready(function() {
         const seconds = Math.floor(diff % 60);
         return `${seconds} second${seconds === 1 ? '' : 's'} ago`;
     }
-
+    
     function validateForm() {
         const title = document.getElementById('title').value;
         const titleError = document.getElementById('title-error');
@@ -134,3 +150,20 @@ $(document).ready(function() {
         }
         return true; 
     }
+
+    function formatNumber(number) {
+        if (number >= 1000000) {
+            return (number / 1000000).toFixed(1) + 'M';
+        } else if (number >= 1000) {
+            return (number / 1000).toFixed(1) + 'K';
+        } else {
+            return number.toString();
+        }
+    }
+
+    $(document).ready(function() {
+        $('.number-format').each(function() {
+            var number = parseInt($(this).data('number'));
+            $(this).text(formatNumber(number));
+        });
+    });

@@ -18,19 +18,19 @@
                         <% 
                             const data = post.dataValues;
                             Object.entries(data).forEach(([field, value]) => { 
-                                if (field === 'user_id' || field === 'userId' || field === 'image') return;
+                                if (field === 'user_id' || field === 'id' || field === 'image') return;
                         %>
                             <tr>
                                 <th scope="row"><%= field %></th>
                                 <td>
                                     <% if (field === 'avatar') { %>
                                         <img src="/upload/<%= value %>" alt="Avatar" style="max-width: 200px; height: auto;" />
+                                    <% } else if (value === null || value === undefined) { %>
+                                        Undefined
+                                    <% } else if (field === 'status') { %>
+                                        <%= value === 1 ? 'Enable' : 'Disable' %>
                                     <% } else { %>
-                                        <% if (value === null) { %>
-                                            undefined
-                                        <% } else { %>
-                                            <%= value %>
-                                        <% } %>
+                                        <%= value %>
                                     <% } %>
                                 </td>
                             </tr>

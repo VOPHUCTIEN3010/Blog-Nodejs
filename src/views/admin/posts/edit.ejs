@@ -1,0 +1,99 @@
+<%- include('../layout/header.ejs') %> 
+<%- include('../layout/sidebar.ejs') %>
+<div class="content-wrapper" style="min-height: 828px">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Users <small>management</small></h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">
+                            <a href="/admin/dashboard">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="/admin/posts">Index Posts</a>
+                        </li>
+                        <li class="breadcrumb-item active">Edit</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card card-info">
+                <div class="card-header">
+                    <h3 class="card-title">Edit Users</h3>
+                </div>
+                <form action="/admin/update_post/<%= post.id %>" method="post" enctype="multipart/form-data" class="form-horizontal">
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <label class="control-label col-md-3" for="content">Content</label>
+                            <div class="controls col-md-7">
+                                <textarea id="content" name="content" placeholder="" class="form-control" 
+                                    style="min-height: 300px;"><%= post.content %></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3" for="title">Title</label>
+                            <div class="controls col-md-7">
+                                <input type="text" id="title" name="title" placeholder="" class="form-control" value="<%= post.title %>" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3" for="slug">Slug</label>
+                            <div class="controls col-md-7">
+                                <input type="text" id="slug" name="slug" placeholder="" class="form-control" value="<%= post.slug %>" required />
+                                <span id="slug-error" class="text-danger" style="display:none;">Slug is required.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3" for="image">Avatar</label>
+                            <div class="controls col-md-7">
+                                <div class="image-wrapper">
+                                    <img src="/upload/<%= post.image %>" class="avatar-image" id="image-preview" alt="image" 
+                                        style="height: 300px; width: 90%;" />
+                                    <div>
+                                        <input type="file" id="image" name="image" class="form-control file-input" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="controls offset-md-3 col-md-9">
+                                <input class="btn btn-success pull-right" type="submit" name="btn_submit" value="Edit" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#image').on('change', function () {
+            var file = this.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#image-preview').attr('src', e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        $('#form-adduser').on('submit', function (e) {
+            var slug = $('#slug').val().trim();
+            if (slug === '') {
+                e.preventDefault(); 
+                $('#slug-error').show(); 
+            } else {
+                $('#slug-error').hide(); 
+            }
+        });
+    });
+</script>
+<%- include('../layout/footer.ejs') %>

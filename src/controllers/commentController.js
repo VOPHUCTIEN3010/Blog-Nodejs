@@ -48,6 +48,18 @@ const commentCtl = {
             console.error('Error adding like:', error);
             res.status(500).json({ error: error.message });
         }
+    },
+    commentUpdateStatus : async (req, res) => {
+        try {
+            const {status, commentId} = req.body;        
+            if (!commentId) {
+                return res.status(404).send("binh luan không tồn tại");
+            }
+            const newComment = await commentService.updateCommentStatus(commentId, status);
+            res.status(200).json({ success: true, message: 'Comment status updated', newComment });
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
     }
 }
 

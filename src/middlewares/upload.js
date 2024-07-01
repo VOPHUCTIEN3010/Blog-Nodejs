@@ -2,7 +2,6 @@ import multer from 'multer';
 import ResponseHandler from '../untils/helper.js';
 
 const upload = multer({
-    // dest: "upload",
     limits: { fileSize: 5 * 1024 * 1024 },
     fileFilter: function (req, file, cb) {
         const allowedTypes = ["image/jpeg", "image/png", "image/gif"];

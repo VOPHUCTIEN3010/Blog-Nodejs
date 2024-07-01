@@ -6,6 +6,7 @@ import router from "./src/routers/router.js";
 import ViewEngine from "./src/config/configViewEngine.js";
 import session from "express-session";
 import Relations from './src/models/index.js'
+import htmlHelpers from "./src/helpers/htmlHelpers.js";
 dotenv.config();
 (async () => {
     await sequelize.sync();
@@ -34,6 +35,10 @@ process.on('unhandledRejection', (reason, promise) => {
     console.error('Unhandled promise rejection at:', promise, 'reason:', reason);
 });
 
+app.use((req, res, next) => {
+  res.locals.helpers = htmlHelpers;
+  next();
+});
 
 ViewEngine(app);
 app.use("/", router);

@@ -141,17 +141,16 @@ const PostCtl = {
         }
     },
     postUpdateStatus: async (req, res) => {
-        const { postId, status } = req.body;
         try {
-            const post = await PostServices.updatePostStatus(postId, status);
-            if (!post) {
+            const { postId, status } = req.body;
+            if (!postId) {
                 return res.status(404).send("Bài đăng không tồn tại");
             }
+            const newPost = await PostServices.updatePostStatus(postId, status);
             
-            res.status(200).send("Cập nhật trạng thái thành công");
+            res.status(200).json( {success: true, message: 'update status successfully', newPost});
         } catch (error) {
-            console.error("Lỗi khi cập nhật trạng thái:", error);
-            res.status(500).send("Lỗi khi cập nhật trạng thái");
+            return res.status(500).json({ msg: err.message });
         }
     },
 };

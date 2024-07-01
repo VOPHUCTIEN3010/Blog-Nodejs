@@ -100,6 +100,46 @@ body{
     margin-bottom: 10px;
 }
 
+.panel {
+    margin-top: 20px; 
+}
+
+.card {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.post-thumb img {
+    border-radius: 8px;
+}
+
+.post-title h1 {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.post-title h1:hover { 
+    color: #689ae6;
+}
+
+.post-excerpt {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.5;
+}
+
+.more-info {
+    padding-top: 10px; 
+}
+
+.card .post-thumb {
+    display: block;
+    width: 100%;
+}
 
 /* comment */
 .mar-top-submit{

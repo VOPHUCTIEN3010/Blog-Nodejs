@@ -1,18 +1,44 @@
 import User from "../models/User.js";
-import Post  from "../models/Post.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import sequelize from'sequelize';
+import path from 'path';
+import fs from 'fs';
+
 
 const UserService = {
-    async getAllUsers() {
+    async getAllUsers(page = 1, limit = 10, keyword = '') {
         try {
-            const users = await User.findAll();
-            return users;
+            const offset = (page - 1) * limit;
+            let whereClause = {};
+            if (keyword) {
+                whereClause = {
+                    [sequelize.Op.or]: [
+                        {
+                            fullname: {
+                                [sequelize.Op.like]: `%${keyword}%`
+                            }
+                        },
+                        {
+                            email: {
+                                [sequelize.Op.like]: `%${keyword}%`
+                            }
+                        }
+                    ]
+                };
+            }
+            const { count: totalUsers, rows: users } = await User.findAndCountAll({
+                where: whereClause,
+                // include: ['posts', 'likes', 'comments'],
+                limit: limit,
+                offset: offset,
+                order: [['createdAt', 'DESC']]
+            });
+            return { users, totalUsers };
         } catch (error) {
             console.error('Error retrieving all users:', error);
             throw error;
         }
-    },
+    },    
     async getUser(user_id) {
         try {
             const results = await User.findAll({
@@ -57,7 +83,7 @@ const UserService = {
             throw error;
         }
     },
-    async updateByUserById(id, fullname, email, phone, birthday, sex, address, image) {
+    async updateByUserById(id, fullname, email, phone, birthday, sex, address, image, role) {
         try {
             const  rowsUpdated = await User.update({
                 fullname,
@@ -66,15 +92,11 @@ const UserService = {
                 birthday,
                 sex,
                 address,
-                image
+                image,
+                role
             }, {
                 where: {
                     id: id 
-                }
-            });
-            const results = await User.findAll({
-                where: {
-                    id: id
                 }
             });
             if (rowsUpdated === 0) {
@@ -90,13 +112,21 @@ const UserService = {
     },
     async deleteUser(user_id) {
         try {
-            const user = await User.findByPk(user_id);
-
+            const user = await this.getUserById(user_id);
             if (!user) {
-                return false;
+                return { success: false, message: 'Post not found' };
+            }
+            if (user.image && user.image !== '') {
+                const imagePath = path.resolve(`./src/public/upload/${user.image}`);
+                try {
+                    fs.unlinkSync(imagePath);
+                } catch (err) {
+                    console.error('Error deleting image:', err);
+                    return { success: false, message: 'Error deleting post image' };
+                }
             }
             await user.destroy();
-            return true;
+            return { success: true, message: 'User deleted successfully' };
         } catch (err) {
             console.error('Error deleting user:', err);
             return false; 

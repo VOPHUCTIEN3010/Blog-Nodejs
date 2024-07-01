@@ -17,5 +17,5 @@ const sequelize = new Sequelize(
             idle: 10000
         },
     },
-);  
+);
 export default sequelize; 

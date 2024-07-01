@@ -24,4 +24,26 @@ $(document).ready(function() {
             });
         }
     });
+
+    $('.postStatusCheckbox').change(function() {
+        var status = this.checked ? 1 : 0;
+        var postId = $(this).data('post-id');
+        if (confirm('Are you sure you want to change ')) {
+            $.ajax({
+                url: '/updatePostStatus', 
+                type: 'POST',
+                data: { postId: postId, status: status }
+            })
+            .done(function(response) {
+                if (response.success) {
+                    alert(response.message); 
+                } else {
+                    alert('Error: ' + response.message);
+                }
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                alert('Error deleting post: ' + (jqXHR.responseJSON ? jqXHR.responseJSON.message : textStatus));
+            });
+        }
+    });
 });
